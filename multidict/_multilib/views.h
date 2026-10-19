@@ -546,6 +546,8 @@ multidict_itemsview_or2(_Multidict_ViewObject *self, PyObject *other)
             }
         }
         Py_CLEAR(arg);
+        Py_CLEAR(identity);
+        Py_CLEAR(value);
     }
     if (PyErr_Occurred()) {
         goto fail;
@@ -566,6 +568,7 @@ multidict_itemsview_or2(_Multidict_ViewObject *self, PyObject *other)
                 goto fail;
             }
             tmp = PySet_Contains(tmp_set, tpl);
+            Py_DECREF(tpl);
             if (tmp < 0) {
                 goto fail;
             }
@@ -655,6 +658,8 @@ multidict_itemsview_sub1(_Multidict_ViewObject *self, PyObject *other)
             }
         }
         Py_CLEAR(arg);
+        Py_CLEAR(identity);
+        Py_CLEAR(value);
     }
     if (PyErr_Occurred()) {
         goto fail;
@@ -675,6 +680,7 @@ multidict_itemsview_sub1(_Multidict_ViewObject *self, PyObject *other)
                 goto fail;
             }
             tmp = PySet_Contains(tmp_set, tpl);
+            Py_DECREF(tpl);
             if (tmp < 0) {
                 goto fail;
             }
@@ -691,13 +697,13 @@ multidict_itemsview_sub1(_Multidict_ViewObject *self, PyObject *other)
     Py_CLEAR(tmp_set);
     return ret;
 fail:
+    Py_CLEAR(arg);
     Py_CLEAR(identity);
     Py_CLEAR(key);
     Py_CLEAR(value);
     Py_CLEAR(ret);
     Py_CLEAR(tmp_set);
     Py_CLEAR(iter);
-    Py_CLEAR(ret);
     return NULL;
 }
 
